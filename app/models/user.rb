@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  validates :username, uniqueness: true, presence: true
+  has_many :comments
+  has_many :episodes, through: :comments
 
   def access_token_expired?
     # returns true if access_token is older than 55 minutes, based on updated_at
