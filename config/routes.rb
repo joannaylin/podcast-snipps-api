@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get "/auth", to: "auth#show"
 
       resources :users, only: [:create]
+      resources :comments, only: [:index, :create, :update, :show, :destroy]
+      resources :episodes, only: [:index, :create, :show]
+
     end
   end
 
