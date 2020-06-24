@@ -7,12 +7,6 @@ class ApplicationController < ActionController::API
     JWT.encode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])
   end
 
-  # Bearer <token>
-  # grab jwt token out of request.headers
-  # def auth_header 
-  #   request.headers["Authorization"]
-  # end
-
   def decode_token(payload)
     begin
       JWT.decode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])
@@ -21,13 +15,6 @@ class ApplicationController < ActionController::API
     end
   end
 
-  # def current_user
-  #   if decoded_token
-  #     user_id = decoded_token[0]["user_id"]
-  #     user = User.find_by(id: user_id)
-  #   end
-  # end
-
   def current_user
     # pull jwt token out of request.headers (assumed to be in format: {Authorization: "Token token=xxx"})
     authenticate_or_request_with_http_token do |jwt_token, options|
@@ -35,7 +22,7 @@ class ApplicationController < ActionController::API
       # if a decoded token is found, use it to return a user
       if decoded_token
         user_id = decoded_token[0]["user_id"]
-        @current_user ||= User.find_by(id: user_id)
+        User.find_by(id: user_id)
       end
     end
   end
