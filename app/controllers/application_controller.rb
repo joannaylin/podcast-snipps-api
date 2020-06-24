@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
-  before_action :authorized, only: [:current_user]
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :authorized, except: [:issue_token, :decode_token, :logged_in?]
 
   # issue a token, store payload in token
   def issue_token(payload)
@@ -8,25 +9,34 @@ class ApplicationController < ActionController::API
 
   # Bearer <token>
   # grab jwt token out of request.headers
-  def auth_header 
-    request.headers["Authorization"]
-  end
+  # def auth_header 
+  #   request.headers["Authorization"]
+  # end
 
-  def decoded_token(payload)
-    if auth_header
-      token = auth_header.split(" ")[1]
-      begin
-        JWT.decode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])
-      rescue JWT::DecodeError
-        return nil
-      end
+  def decode_token(payload)
+    begin
+      JWT.decode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])
+    rescue JWT::DecodeError
+      return nil
     end
   end
 
+  # def current_user
+  #   if decoded_token
+  #     user_id = decoded_token[0]["user_id"]
+  #     user = User.find_by(id: user_id)
+  #   end
+  # end
+
   def current_user
-    if decoded_token
-      user_id = decoded_token[0]["user_id"]
-      user = User.find_by(id: user_id)
+    # pull jwt token out of request.headers (assumed to be in format: {Authorization: "Token token=xxx"})
+    authenticate_or_request_with_http_token do |jwt_token, options|
+      decoded_token = decode_token(jwt_token)
+      # if a decoded token is found, use it to return a user
+      if decoded_token
+        user_id = decoded_token[0]["user_id"]
+        @current_user ||= User.find_by(id: user_id)
+      end
     end
   end
 
@@ -36,6 +46,7 @@ class ApplicationController < ActionController::API
 
   def authorized
     # respond with error message unless user is logged in
+    p "*****YOU HIT THE APPLICATION CONTROLLER*****"
     render json: {error: "Access denied: not authorized."}, status: 401 unless logged_in?
   end
 
