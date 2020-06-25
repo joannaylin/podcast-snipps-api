@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
       # if a decoded token is found, use it to return a user
       if decoded_token
         user_id = decoded_token[0]["user_id"]
-        User.find_by(id: user_id)
+        @current_user ||= User.find_by(id: user_id)
       end
     end
   end
