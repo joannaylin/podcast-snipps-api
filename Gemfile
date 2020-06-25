@@ -30,7 +30,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
-gem 'active_model_serializers'
+# gem 'active_model_serializers'
 
 # Use Figaro to make it easy to securely configure Rails applications.
 gem "figaro"

@@ -47,4 +47,26 @@ class Api::V1::UsersController < ApplicationController
 
   end
 
+  def search
+    current_user.refresh_access_token
+
+    header = {
+      "Authorization": "Bearer #{current_user.access_token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    }
+
+    query_params = {
+      q: params[:query],
+      type: "show",
+      market: "US",
+      limit: 10,
+    }
+
+    search_response = RestClient.get("https://api.spotify.com/v1/search?#{query_params.to_query}", headers=header)
+    shows = JSON.parse(search_response.body)
+    render json: {shows: shows, status: 200}
+  end
+
+
 end
