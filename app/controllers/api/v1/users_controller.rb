@@ -5,7 +5,6 @@ class Api::V1::UsersController < ApplicationController
     # after Spotify has user authorize application, user gets redirect to 
     # /api/v1/users (aka this method)
     # need to request refresh and access tokens from Spotify
-    p "*****YOU'VE HIT USERS#CREATE*****"
 
     body = {
       grant_type: "authorization_code",
