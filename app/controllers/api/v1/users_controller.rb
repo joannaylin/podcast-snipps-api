@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized
+  skip_before_action :authorized, only: [:create]
 
   def create
     # after Spotify has user authorize application, user gets redirect to 
@@ -48,14 +48,17 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def search
+    # check if the current user's access token needs to be refreshed, if so, method refreshes
     current_user.refresh_access_token
 
+    # header includes the user's access token (required by spotify)
     header = {
       "Authorization": "Bearer #{current_user.access_token}",
       "Content-Type": "application/json",
       "Accept": "application/json",
     }
 
+    # set up query params for search
     query_params = {
       q: params[:query],
       type: "show",
@@ -68,5 +71,52 @@ class Api::V1::UsersController < ApplicationController
     render json: {shows: shows, status: 200}
   end
 
+  def podcast
+    # check if the current user's access token needs to be refreshed, if so, method refreshes
+    current_user.refresh_access_token
+
+    # post request from frontend to backend passing in the params[:id] (id referencing show/podcast id)
+    show_id = params[:id]
+
+    header = {
+      "Authorization": "Bearer #{current_user.access_token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    }
+
+    show_response = RestClient.get("https://api.spotify.com/v1/shows/#{show_id}?market=US", headers=header)
+    show_info = JSON.parse(show_response.body)
+
+    render json: {show_info: show_info, status: 200}
+
+  end
+
+  def podcast_episodes
+    # check if the current user's access token needs to be refreshed, if so, method refreshes
+    current_user.refresh_access_token
+
+    # post request from frontend to backend passing in the params[:id] (id referencing show/podcast id)
+    show_id = params[:id]
+
+    header = {
+      "Authorization": "Bearer #{current_user.access_token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    }
+
+    query_params = {
+      market: "US",
+      limit: 10,
+    }
+
+    show_episodes = RestClient.get("https://api.spotify.com/v1/shows/#{show_id}/episodes?#{query_params.to_query}", headers=header)
+    show_episodes_info = JSON.parse(show_episodes.body)
+
+    render json: {show_episodes_info: show_episodes_info, status: 200}
+
+  end
+
 
 end
+
+

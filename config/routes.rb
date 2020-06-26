@@ -4,9 +4,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "/login", to: "auth#spotify_request"
       get "/auth", to: "auth#show"
-      post "/search", to: "users#search"
-      
+    
       resources :users, only: [:create]
+      post "/search", to: "users#search"
+      post "/podcast", to: "users#podcast"
+      post "/podcast_episodes", to: "users#podcast_episodes"
+      
       resources :comments, only: [:index, :create, :update, :show, :destroy]
       resources :episodes, only: [:index, :create, :show]
 
