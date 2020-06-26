@@ -46,7 +46,7 @@ class Api::V1::UsersController < ApplicationController
 
   end
 
-  def search
+  def podcast_search
     # check if the current user's access token needs to be refreshed, if so, method refreshes
     current_user.refresh_access_token
 

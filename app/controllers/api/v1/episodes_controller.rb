@@ -18,6 +18,24 @@ class Api::V1::EpisodesController < ApplicationController
     render json: episode
   end
 
+  def episode_search
+    # check if the current user's access token needs to be refreshed, if so, method refreshes
+    current_user.refresh_access_token
+
+    # header includes the user's access token (required by spotify)
+    header = {
+      "Authorization": "Bearer #{current_user.access_token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    }
+
+    episode_response = RestClient.get("https://api.spotify.com/v1/episodes/#{params[:episodeId]}?market=US", headers=header)
+    episode = JSON.parse(episode_response.body)
+
+    render json: {episode: episode, status: 200}
+  end
+
+
   private
 
   def episode_params
