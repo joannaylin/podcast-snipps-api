@@ -8,8 +8,16 @@ class Api::V1::EpisodesController < ApplicationController
 
   def create
     p "this is the create action"
-    episode = Episode.create!(episode_params)
-    render json: episode
+    if Episode.find_by(params[:episode][:id]) 
+      episode = Episode.find_by(params[:episode][:id])
+      episode.comments.create!(note: params[:comment][:note], start_timestamp: params[:comment][:start_timestamp], user: current_user)
+      render json: episode
+    else
+      episode = Episode.create!(episode_params)
+      episode.comments.create!(note: params[:comment][:note], start_timestamp: params[:comment][:start_timestamp], user: current_user)
+      render json: episode
+    end
+
   end
 
   def show

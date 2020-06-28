@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       post "/podcast_episodes", to: "users#podcast_episodes"
       
       resources :comments, only: [:index, :create, :update, :show, :destroy]
+
       resources :episodes, only: [:index, :create, :show]
       post "/episode_search", to: "episodes#episode_search"
 

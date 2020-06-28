@@ -8,7 +8,6 @@ class Api::V1::CommentsController < ApplicationController
 
   def create
     p "this is the create action"
-    comment = Comment.create(comment_params)
     render json: comment
   end
 
