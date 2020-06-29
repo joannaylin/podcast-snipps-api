@@ -6,13 +6,14 @@ Rails.application.routes.draw do
       get "/auth", to: "auth#show"
     
       resources :users, only: [:create]
+      get "/user", to: "users#show"
       post "/podcast_search", to: "users#podcast_search"
       post "/podcast", to: "users#podcast"
       post "/podcast_episodes", to: "users#podcast_episodes"
       
       resources :comments, only: [:index, :create, :update, :show, :destroy]
 
-      resources :episodes, only: [:index, :create, :show]
+      resources :episodes, only: [:index, :create]
       post "/episode_search", to: "episodes#episode_search"
 
     end

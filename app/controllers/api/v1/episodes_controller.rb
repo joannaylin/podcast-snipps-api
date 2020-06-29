@@ -8,11 +8,12 @@ class Api::V1::EpisodesController < ApplicationController
 
   def create
     p "this is the create action"
+    p "**********************"
     if Episode.find_by(episode_name: params[:episode][:episode_name]) 
-      episode = Episode.find_by(episode_name: params[:episode][:episode_name])
-      p "*******************"
-      p episode
+      episode = Episode.find_by(episode_name: params[:episode][:episode_name]) 
       episode.comments.create!(note: params[:comment][:note], start_timestamp: params[:comment][:start_timestamp], user: current_user)
+      p "**********************"
+      p episode
       render json: episode
     else
       episode = Episode.create!(episode_params)
@@ -24,7 +25,7 @@ class Api::V1::EpisodesController < ApplicationController
 
   def show
     p "this is the show action"
-    episode = Episode.find(params[:id])
+    episode = Episode.find_by(params[:id])
     render json: episode
   end
 
