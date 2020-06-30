@@ -1,33 +1,30 @@
 class Api::V1::EpisodesController < ApplicationController
 
-  def index
-    p "this is the index action"
-    episodes = Episode.all
-    render json: episodes
-  end
+  # def index
+  #   p "this is the index action"
+  #   episodes = Episode.all
+  #   render json: episodes
+  # end
 
   def create
-    p "this is the create action"
-    p "**********************"
     if Episode.find_by(episode_name: params[:episode][:episode_name]) 
       episode = Episode.find_by(episode_name: params[:episode][:episode_name]) 
       episode.comments.create!(note: params[:comment][:note], start_timestamp: params[:comment][:start_timestamp], user: current_user)
-      p "**********************"
-      p episode
+      
       render json: episode
     else
       episode = Episode.create!(episode_params)
       episode.comments.create!(note: params[:comment][:note], start_timestamp: params[:comment][:start_timestamp], user: current_user)
+      
       render json: episode
     end
 
   end
 
-  def show
-    p "this is the show action"
-    episode = Episode.find_by(params[:id])
-    render json: episode
-  end
+  # def show
+  #   episode = Episode.find_by(params[:id])
+  #   render json: episode
+  # end
 
   def episode_search
     # check if the current user's access token needs to be refreshed, if so, method refreshes

@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
     JWT.encode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])
   end
 
+  # decode token using secret and algorithm
   def decode_token(payload)
     begin
       JWT.decode(payload, ENV["JWT_SECRET"], ENV["JWT_ALGORITHM"])

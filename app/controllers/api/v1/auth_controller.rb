@@ -5,7 +5,6 @@ class Api::V1::AuthController < ApplicationController
     # user clicked "login" button, assemble get request to
     # Spotify to have user authorize application
 
-    p "*****YOU HIT AUTH#SPOTIFY_REQUEST*****"
     query_params = {
       client_id: ENV['CLIENT_ID'],
       response_type: 'code',
@@ -16,7 +15,7 @@ class Api::V1::AuthController < ApplicationController
 
     url = "https://accounts.spotify.com/authorize"
     # .to_query is a ruby method that returns string suitable for a URL query string
-    # redirect to Spotify's authorization page, which contains the query params above
+    # will redirect to Spotify's authorization page, which contains the query params above
     # query params includes scopes the app is requesting
     redirect_to "#{url}?#{query_params.to_query}"
   end
@@ -28,6 +27,7 @@ class Api::V1::AuthController < ApplicationController
       spotify_url: current_user.spotify_url, 
       profile_img_url: current_user.profile_img_url
     }
+    
   end
 
 end
