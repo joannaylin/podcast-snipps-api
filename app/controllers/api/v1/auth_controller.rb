@@ -9,7 +9,7 @@ class Api::V1::AuthController < ApplicationController
       client_id: ENV['CLIENT_ID'],
       response_type: 'code',
       redirect_uri: ENV['REDIRECT_URI'],
-      scope: 'user-read-playback-position',
+      scope: 'streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state user-library-read user-library-modify user-read-playback-position',
       show_dialog: true
     }
 
@@ -21,13 +21,20 @@ class Api::V1::AuthController < ApplicationController
   end
 
   def show
+    current_user.refresh_access_token
     # if application_controller#authorized is successful, return data for the user
     render json: { 
       username: current_user.username, 
       spotify_url: current_user.spotify_url, 
-      profile_img_url: current_user.profile_img_url
+      profile_img_url: current_user.profile_img_url,
+      access: current_user.access_token
     }
-    
+
   end
 
 end
+
+
+
+
+# streaming user-read-birthdate user-read-email user-read-private user-read-playback-state user-modify-playback-state user-library-read user-library-modify user-read-playback-position

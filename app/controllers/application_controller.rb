@@ -34,7 +34,6 @@ class ApplicationController < ActionController::API
 
   def authorized
     # respond with error message unless user is logged in
-    p "*****YOU HIT THE APPLICATION CONTROLLER*****"
     render json: {error: "Access denied: not authorized."}, status: 401 unless logged_in?
   end
 
