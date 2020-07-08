@@ -1,10 +1,9 @@
 class Api::V1::EpisodesController < ApplicationController
 
-  # def index
-  #   p "this is the index action"
-  #   episodes = Episode.all
-  #   render json: episodes
-  # end
+  def index
+    episodes = current_user.episodes.uniq
+    render json: episodes
+  end
 
   def create
     if Episode.find_by(episode_name: params[:episode][:episode_name]) 
@@ -18,7 +17,6 @@ class Api::V1::EpisodesController < ApplicationController
       
       render json: episode
     end
-
   end
 
   # def show

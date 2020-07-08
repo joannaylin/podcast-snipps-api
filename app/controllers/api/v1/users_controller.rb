@@ -67,7 +67,7 @@ class Api::V1::UsersController < ApplicationController
       q: params[:query],
       type: "show",
       market: "US",
-      limit: 10,
+      limit: 20,
     }
 
     search_response = RestClient.get("https://api.spotify.com/v1/search?#{query_params.to_query}", header)
@@ -112,7 +112,7 @@ class Api::V1::UsersController < ApplicationController
 
     query_params = {
       market: "US",
-      limit: 10,
+      limit: 20,
     }
 
     show_episodes = RestClient.get("https://api.spotify.com/v1/shows/#{show_id}/episodes?#{query_params.to_query}", header)
