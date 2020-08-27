@@ -1,24 +1,16 @@
-# README
+## Podcast Snippets 
+  * Rails API for Podcast Snippets. 
+  * Makes Spotify API Calls for React [Frontend](https://github.com/joannaylin/podcast-snippets-frontend).
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Features
+  * Authorizes user's through Spotify's Web API Authorization Code Flow, alongside front end.
+  * Requires authorization for all API requests. 
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Architecture
+  * App.js contains application code. 
+  * Utilizes [Spotify Web API](https://developer.spotify.com/documentation/web-api/) to authorize users and access private data. 
+    * Must [register](https://developer.spotify.com/dashboard/) app with Spotify and store client id, secret key, redirect uri, etc. as environment variables. 
+      * App uses [Figaro Gem](https://github.com/laserlemon/figaro).
+  
+  
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
