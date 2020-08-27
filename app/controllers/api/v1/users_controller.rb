@@ -42,7 +42,7 @@ class Api::V1::UsersController < ApplicationController
     payload = {user_id: @user.id}
     token = issue_token(payload)
 
-    render json: {token: token, user: { username: @user.username, spotify_url: @user.spotify_url, profile_img_url: @user.profile_img_url, access: auth_params["access_token"] }}
+    render json: {token: token, user: { username: @user.username, spotify_url: @user.spotify_url, profile_img_url: @user.profile_img_url }}
 
   end
 
