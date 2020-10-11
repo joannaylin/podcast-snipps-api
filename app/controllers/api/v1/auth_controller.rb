@@ -2,8 +2,7 @@ class Api::V1::AuthController < ApplicationController
   skip_before_action :authorized, only: [:spotify_request]
 
   def spotify_request
-    # user clicked "login" button, assemble get request to
-    # Spotify to have user authorize application
+    # user clicked "login" button, assemble get request to Spotify to have user authorize application
 
     query_params = {
       client_id: ENV['CLIENT_ID'],
@@ -14,7 +13,6 @@ class Api::V1::AuthController < ApplicationController
     }
 
     url = "https://accounts.spotify.com/authorize"
-    # .to_query is a ruby method that returns string suitable for a URL query string
     # will redirect to Spotify's authorization page, which contains the query params above
     # query params includes scopes the app is requesting
     redirect_to "#{url}?#{query_params.to_query}"

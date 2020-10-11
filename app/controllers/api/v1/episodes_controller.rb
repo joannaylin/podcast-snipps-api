@@ -19,11 +19,6 @@ class Api::V1::EpisodesController < ApplicationController
     end
   end
 
-  # def show
-  #   episode = Episode.find_by(params[:id])
-  #   render json: episode
-  # end
-
   def episode_search
     # check if the current user's access token needs to be refreshed, if so, method refreshes
     current_user.refresh_access_token

@@ -1,20 +1,5 @@
 class Api::V1::CommentsController < ApplicationController
 
-  # def index
-  #   comments = Comment.all
-  #   render json: comments
-  # end
-
-  # def create
-  #   p "this is the create action"
-  #   render json: comment
-  # end
-
-  # def show
-  #   comment = Comment.find(params[:id])
-  #   render json: comment
-  # end
-
   def update
     comment = Comment.find(params[:id])
     comment.update!(comment_params)
